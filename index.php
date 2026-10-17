@@ -28,31 +28,31 @@
  
     <ul class="modulos">
       <li>
-        <a class="modulo" href="#solicitantes">
+        <a class="modulo" href="solicitantes.php">
           <span class="num">01</span>
           <span><h2>Solicitantes</h2><p>Alta y consulta de usuarios</p></span>
         </a>
       </li>
       <li>
-        <a class="modulo" href="#equipos">
+        <a class="modulo" href="equipos.php">
           <span class="num">02</span>
           <span><h2>Equipos</h2><p>Inventario y disponibilidad</p></span>
         </a>
       </li>
       <li>
-        <a class="modulo" href="#autorizar">
+        <a class="modulo" href="autorizar.php">
           <span class="num">03</span>
           <span><h2>Autorizar préstamo</h2><p>Autorizar una nueva salida</p></span>
         </a>
       </li>
       <li>
-        <a class="modulo" href="#devoluciones">
+        <a class="modulo" href="devoluciones.php">
           <span class="num">04</span>
           <span><h2>Devoluciones</h2><p>Registrar equipos recibidos</p></span>
         </a>
       </li>
       <li>
-        <a class="modulo" href="#reportes">
+        <a class="modulo" href="reportes.php">
           <span class="num">05</span>
           <span><h2>Reportes</h2><p>Prestados, disponibles y vencidos</p></span>
         </a>
