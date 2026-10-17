@@ -1,3 +1,11 @@
+/*
+    Autor: Kimberly Garcia 
+    Ultimo modificador: Kimberly Garcia
+    Fecha de creacion: 13/10/26
+    Fecha de modificacion: 16/10/26
+    Descripcion: Estilos de las paginas del proyecto
+*/
+
 /* ===== Variables de color y tipografía ===== */
 :root {
   --vino: #7a1f24;
@@ -13,8 +21,8 @@
   --sans: "Source Sans 3", "Segoe UI", system-ui, sans-serif;
 }
 
-/* Modo oscuro automático (si no lo quieres, borra este bloque) */
-@media (prefers-color-scheme: dark) {
+/* Modo blanco automatico*/
+@media (prefers-color-scheme: white) {
   :root {
     --vino: #e08a90;
     --vino-hover: #f0b0b4;
@@ -226,4 +234,327 @@ h1 {
 
 @media (prefers-reduced-motion: reduce) {
   * { transition: none !important; }
+}
+
+/* =====================================================
+   Estilos reutilizables: formularios, tablas y layout de dos columnas (agregado)
+   ===================================================== */
+:root { --borde: #c9ccd1; }
+
+.dos-columnas {
+  display: grid;
+  grid-template-columns: var(--col-izq, 320px) 1fr;
+  gap: var(--gap-col, 40px);
+  margin-top: 44px;
+  padding-left: var(--sangria, 22px);
+  align-items: start;
+}
+
+/* --- Formulario --- */
+.campo { margin-bottom: 18px; }
+
+.campo label,
+.lista-titulo {
+  display: block;
+  font-size: .72rem;
+  font-weight: 700;
+  margin-bottom: 6px;
+}
+
+.campo input,
+.busqueda input {
+  width: 100%;
+  padding: 9px 12px;
+  font: inherit;
+  font-size: .8rem;
+  color: var(--texto);
+  background: var(--fondo);
+  border: 1px solid var(--borde);
+  border-radius: 2px;
+}
+
+.campo input:focus-visible,
+.busqueda input:focus-visible {
+  outline: 2px solid var(--azul);
+  outline-offset: 1px;
+}
+
+.acciones-form {
+  display: flex;
+  align-items: center;
+  gap: 60px;
+  margin-top: 40px;
+}
+
+/* --- Botones --- */
+.btn {
+  background: var(--vino);
+  color: var(--fondo);
+  font: inherit;
+  font-size: .78rem;
+  font-weight: 700;
+  border: 0;
+  border-radius: 3px;
+  padding: 11px 40px;
+  cursor: pointer;
+}
+
+.btn:hover { background: var(--vino-hover); }
+
+.btn-texto {
+  background: none;
+  border: 0;
+  padding: 0;
+  font: inherit;
+  font-size: .78rem;
+  font-weight: 700;
+  color: var(--vino);
+  cursor: pointer;
+}
+
+.btn-texto:hover { color: var(--vino-hover); text-decoration: underline; }
+
+/* --- Búsqueda y tabla --- */
+.busqueda {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 20px;
+}
+
+.busqueda input { flex: 1; }
+.busqueda .btn { padding: 0 38px; }
+
+.tabla {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: .72rem;
+}
+
+.tabla th,
+.tabla td {
+  text-align: left;
+  padding: 11px 10px;
+}
+
+.tabla thead th {
+  background: var(--circulo);
+  font-weight: 700;
+}
+
+.tabla tbody tr:nth-child(even) { background: var(--barra); }
+
+.tabla td a {
+  color: var(--texto);
+  text-decoration: none;
+  margin-right: 4px;
+}
+
+.tabla td a:hover { color: var(--vino); text-decoration: underline; }
+
+.nota {
+  text-align: center;
+  font-size: .68rem;
+  margin: 14px 0 0;
+}
+
+@media (max-width: 720px) {
+  .dos-columnas {
+    grid-template-columns: 1fr;
+    padding-left: 0;
+    margin-top: 28px;
+  }
+  .lista { overflow-x: auto; }
+  .tabla { min-width: 480px; }
+}
+
+
+/* =====================================================
+   Autorizar préstamo (agregado)
+   ===================================================== */
+
+/* Pantallas donde la columna izquierda es más ancha */
+.col-izq-ancha {
+  --col-izq: min(450px, 44vw);
+  --gap-col: 64px;
+  --sangria: 34px;
+}
+
+/* Título + nota que va arriba a la derecha */
+.cabecera-pantalla { position: relative; }
+
+.nota-lateral {
+  position: absolute;
+  top: 46px;
+  left: calc(var(--sangria, 22px) + var(--col-izq, 320px) + var(--gap-col, 40px));
+  right: 0;
+  margin: 0;
+  text-align: center;
+  font-size: .72rem;
+}
+
+/* Dos campos lado a lado (ej. fechas) */
+.campos-fila {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+}
+
+.campos-fila .campo { margin-bottom: 0; }
+
+/* Select con la misma pinta que los inputs + flechita en cuadro */
+.select-caja { position: relative; }
+
+.campo select {
+  width: 100%;
+  padding: 9px 48px 9px 12px;
+  font: inherit;
+  font-size: .8rem;
+  color: var(--texto);
+  background: var(--fondo);
+  border: 1px solid var(--borde);
+  border-radius: 2px;
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+.campo select:focus-visible {
+  outline: 2px solid var(--azul);
+  outline-offset: 1px;
+}
+
+.select-caja::after {
+  content: "";
+  position: absolute;
+  right: 4px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 33px;
+  height: 33px;
+  border: 2px solid #b3b7be;
+  border-radius: 5px;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M3 6l5 5 5-5' fill='none' stroke='%238a8f98' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center / 18px no-repeat;
+  pointer-events: none;
+}
+
+/* Caja de resumen (sobresale un poquito de los campos, como en el diseño) */
+.resumen {
+  background: var(--circulo);
+  padding: 20px 20px 26px;
+  border-radius: 2px;
+  margin: 26px -10px 0;
+}
+
+.resumen h2 {
+  font-family: var(--serif);
+  font-weight: 700;
+  font-size: 1rem;
+  color: var(--vino);
+  margin: 0 0 12px;
+}
+
+.resumen p {
+  margin: 0;
+  font-size: .8rem;
+}
+
+/* Tabla de equipos: columnas y filas más compactas */
+.tabla-equipos { table-layout: fixed; }
+.tabla-equipos th:nth-child(1) { width: 15%; }
+.tabla-equipos th:nth-child(2) { width: 30%; }
+.tabla-equipos th:nth-child(3) { width: 30%; }
+.tabla-equipos th:nth-child(4) { width: 25%; }
+
+.tabla-equipos th,
+.tabla-equipos td {
+  padding: 6px 10px;
+  vertical-align: middle;
+}
+
+/* Variantes de botón */
+.btn-sm {
+  padding: 4px 14px;
+  font-size: .7rem;
+}
+
+.btn-claro {
+  background: var(--circulo);
+  color: var(--texto);
+}
+
+.btn-claro:hover { background: var(--borde); }
+
+.btn-ancho {
+  min-width: 250px;
+  padding: 12px 40px;
+}
+
+.acciones-centro {
+  display: flex;
+  justify-content: center;
+  margin-top: 36px;
+}
+
+@media (max-width: 720px) {
+  .dos-columnas { gap: 28px; }
+  .campos-fila { grid-template-columns: 1fr; gap: 0; }
+  .campos-fila .campo { margin-bottom: 18px; }
+  .resumen { margin: 20px 0 0; }
+  .nota-lateral {
+    position: static;
+    margin-top: 14px;
+    text-align: left;
+  }
+  .btn-ancho { width: 100%; min-width: 0; }
+}
+
+
+/* =====================================================
+   Adaptación a todo tipo de pantallas (agregado)
+   Se deja al final para que mande sobre lo anterior
+   ===================================================== */
+
+/* Imágenes nunca más anchas que su contenedor */
+img { max-width: 100%; height: auto; }
+
+/* --- Pantallas muy grandes: el contenido crece un poco --- */
+@media (min-width: 1600px) {
+  main { max-width: 1300px; }
+}
+
+/* --- Tablets y laptops chicas: formulario y lista se apilan --- */
+@media (max-width: 900px) {
+  .dos-columnas {
+    grid-template-columns: 1fr;
+    padding-left: 0;
+    margin-top: 32px;
+    gap: 28px;
+  }
+
+  /* la nota deja de flotar arriba a la derecha */
+  .nota-lateral {
+    position: static;
+    margin-top: 14px;
+    text-align: left;
+  }
+
+  /* la tabla se desliza de lado si no cabe */
+  .lista { overflow-x: auto; }
+  .tabla { min-width: 480px; }
+
+  .resumen { margin: 22px 0 0; }
+}
+
+/* --- Celulares chicos --- */
+@media (max-width: 480px) {
+  .campos-fila { grid-template-columns: 1fr; gap: 0; }
+  .campos-fila .campo { margin-bottom: 18px; }
+
+  .acciones-form { gap: 28px; }
+
+  .busqueda .btn { padding: 0 20px; }
+
+  .btn-ancho { width: 100%; min-width: 0; }
+
+  .modulo { gap: 14px; }
+  .modulo h2 { font-size: 1rem; }
 }
