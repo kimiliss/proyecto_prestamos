@@ -132,7 +132,6 @@ a:focus-visible {
 /* ===== Contenido principal ===== */
 main {
   padding: 20px 28px 56px;
-  max-width: 1100px;
 }
 
 h1 {
@@ -516,11 +515,6 @@ h1 {
 /* Imágenes nunca más anchas que su contenedor */
 img { max-width: 100%; height: auto; }
 
-/* --- Pantallas muy grandes: el contenido crece un poco --- */
-@media (min-width: 1600px) {
-  main { max-width: 1300px; }
-}
-
 /* --- Tablets y laptops chicas: formulario y lista se apilan --- */
 @media (max-width: 900px) {
   .dos-columnas {
@@ -557,4 +551,171 @@ img { max-width: 100%; height: auto; }
 
   .modulo { gap: 14px; }
   .modulo h2 { font-size: 1rem; }
+}
+
+/* =====================================================
+   Registrar devolución (agregado)
+   ===================================================== */
+
+/* La nota de arriba a la derecha empieza a la mitad de la pantalla */
+.cabecera-devolucion {
+  --sangria: 0px;
+  --col-izq: 50%;
+  --gap-col: 0px;
+}
+
+/* Pantalla de una sola columna (sin sangría como las de dos columnas) */
+.pantalla-una-columna { margin-top: 44px; }
+
+/* Tabla de devoluciones: un poco metida hacia adentro, como en el diseño */
+.tabla-devoluciones {
+  table-layout: fixed;
+  width: calc(100% - 20px);
+  margin: 0 10px;
+}
+.tabla-devoluciones th:nth-child(1) { width: 6.5%; }
+.tabla-devoluciones th:nth-child(2) { width: 17%; }
+.tabla-devoluciones th:nth-child(3) { width: 16%; }
+.tabla-devoluciones th:nth-child(4) { width: 17.5%; }
+.tabla-devoluciones th:nth-child(5) { width: 17.5%; }
+.tabla-devoluciones th:nth-child(6) { width: 25.5%; }
+
+.tabla-devoluciones input[type="radio"] {
+  accent-color: var(--vino);
+  margin-left: 10px;
+}
+
+/* Búsqueda: el campo no llega hasta el borde, el botón queda separado */
+.pantalla-una-columna .busqueda {
+  max-width: 70%;
+  gap: 16px;
+  margin-bottom: 30px;
+}
+.pantalla-una-columna .busqueda .btn { min-width: 130px; padding: 0 24px; }
+
+/* Nota de arriba a la derecha: caja angosta, centrada, en dos líneas */
+@media (min-width: 901px) {
+  .cabecera-devolucion .nota-lateral {
+    left: 50%;
+    max-width: 320px;
+    margin: 0 auto;
+  }
+}
+
+/* Estado "Ocupado" */
+.estado-ocupado {
+  color: var(--vino);
+  font-weight: 700;
+}
+
+/* Mensaje verde de confirmación */
+.aviso-ok {
+  color: #2e8b57;
+  font-weight: 700;
+  font-size: .8rem;
+  margin: 56px 0 0;
+}
+
+/* Botón alineado a la derecha */
+.acciones-derecha {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 24px;
+}
+
+/* Texto solo para lectores de pantalla (el th del radio va vacío visualmente) */
+.solo-lector {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+@media (max-width: 900px) {
+  .pantalla-una-columna { margin-top: 32px; }
+  .aviso-ok { margin-top: 32px; }
+}
+
+@media (max-width: 480px) {
+  .acciones-derecha .btn-ancho { width: 100%; }
+}
+
+@media (max-width: 720px) {
+  .pantalla-una-columna .busqueda { max-width: 100%; }
+}
+
+
+/* =====================================================
+   Reportes
+   ===================================================== */
+
+/* Fila de filtros */
+.filtros-fila {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-top: 24px;
+}
+
+.filtros {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.filtro {
+  color: var(--texto);
+  font-size: .78rem;
+  text-decoration: none;
+  padding: 11px 28px;
+  border-radius: 3px;
+  white-space: nowrap;
+}
+
+.filtro:hover { color: var(--vino); }
+
+.filtro[aria-current="true"] {
+  background: var(--vino);
+  color: var(--fondo);
+  font-weight: 700;
+}
+
+.filtro:focus-visible {
+  outline: 2px solid var(--azul);
+  outline-offset: 2px;
+}
+
+/* Tabla de reportes */
+.tabla-reportes {
+  table-layout: fixed;
+  width: calc(100% - 20px);
+  margin: 36px 10px 0;
+}
+.tabla-reportes th:nth-child(1) { width: 27.5%; }
+.tabla-reportes th:nth-child(2) { width: 18%; }
+.tabla-reportes th:nth-child(3) { width: 15%; }
+.tabla-reportes th:nth-child(4) { width: 17.5%; }
+.tabla-reportes th:nth-child(5) { width: 22%; }
+
+/* La primera columna deja un espacio a la izquierda */
+.tabla-reportes th:first-child,
+.tabla-reportes td:first-child { padding-left: 6%; }
+
+/* Otros estados */
+.estado-disponible { color: #2e8b57; font-weight: 700; }
+.estado-vencido    { color: #b3261e; font-weight: 700; }
+
+@media (max-width: 900px) {
+  .tabla-reportes { margin-top: 24px; }
+  .tabla-reportes th:first-child,
+  .tabla-reportes td:first-child { padding-left: 10px; }
+}
+
+@media (max-width: 720px) {
+  .filtros-fila { flex-wrap: wrap; }
+  .filtros { flex-wrap: wrap; }
+  .filtro { padding: 10px 16px; }
 }
