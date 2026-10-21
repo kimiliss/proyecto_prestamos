@@ -2,7 +2,7 @@
     Autor: Kimberly Garcia 
     Ultimo modificador: Kimberly Garcia
     Fecha de creacion: 18/10/26
-    Fecha de modificacion: 18/10/26
+    Fecha de modificacion: 20/10/26
     Descripcion: Pagina reportes del proyecto
 -->
 
@@ -25,8 +25,7 @@
   <title>Reportes - Data Link</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:wght@400;700&family
-            =Source+Sans+3:wght@400;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:wght@400;700&family=Source+Sans+3:wght@400;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -37,7 +36,7 @@
     <h1>Reportes</h1>
     <p class="subtitulo">Consulta el estado actual del inventario</p>
 
-    <!-- Filtros -->
+    <!-- Filtros + botón Exportar -->
     <div class="filtros-fila">
       <nav class="filtros" aria-label="Filtrar reporte">
         <a class="filtro" href="reportes.php?estado=prestados"
@@ -55,8 +54,10 @@
       </nav>
     </div>
 
-    <!-- Tabla -->
     <section class="lista">
+
+      <?php if ($estado == "prestados"): ?>
+      <!-- ===== Tabla: PRESTADOS ===== -->
       <table class="tabla tabla-reportes">
         <thead>
           <tr>
@@ -67,19 +68,36 @@
             <th>Estado</th>
           </tr>
         </thead>
-        <tbody>
-          <!-- Aquí van las filas desde la base de datos, por ejemplo:
-          <tr>
-            <td>EQ-104 · Laptop</td>
-            <td>Ana López</td>
-            <td>12/06/2026</td>
-            <td>19/06/2026</td>
-            <td class="estado-ocupado">Ocupado</td>
-          </tr>
-          (para los otros estados usa estado-disponible o estado-vencido)
-          -->
-        </tbody>
+
       </table>
+
+      <?php elseif ($estado == "disponibles"): ?>
+      <!-- ===== Tabla: DISPONIBLES ===== -->
+      <table class="tabla tabla-disponibles">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Tipo</th>
+            <th>Descripción/marca</th>
+            <th>Estado</th>
+          </tr>
+        </thead>
+      </table>
+
+      <?php else: ?>
+      <!-- ===== Tabla: VENCIDOS ===== -->
+      <table class="tabla tabla-vencidos">
+        <thead>
+          <tr>
+            <th>Solicitante</th>
+            <th>Equipo</th>
+            <th>Fecha límite</th>
+            <th>Retraso</th>
+          </tr>
+        </thead>
+      </table>
+      <?php endif; ?>
+
     </section>
   </main>
 
