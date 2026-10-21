@@ -2,17 +2,16 @@
 /*
     Autor: Kimberly Garcia
     Fecha de creacion: 20/10/26
-    Descripcion: Elimina un solicitante (y su historial de prestamos).
-                 Contesta en JSON para que mensajes.js muestre el aviso.
+    Descripcion: Elimina un solicitante (y su historial de prestamos)
+                 y regresa a solicitantes.php con el aviso que toca.
 */
 
 require "conexion.php";
-header("Content-Type: application/json; charset=utf-8");
 
 $id = (int) ($_POST["id"] ?? 0);
 
 if ($_SERVER["REQUEST_METHOD"] !== "POST" || $id <= 0) {
-  echo json_encode(["ok" => false, "mensaje" => "Solicitud no válida."]);
+  header("Location: solicitantes.php");
   exit;
 }
 
@@ -28,10 +27,7 @@ try {
   $stmt->close();
 
   if ($activos > 0) {
-    echo json_encode([
-      "ok" => false,
-      "mensaje" => "No se puede eliminar, el solicitante tiene préstamos activos."
-    ]);
+    header("Location: solicitantes.php?aviso=activos");
     exit;
   }
 
@@ -49,9 +45,10 @@ try {
   $stmt->close();
 
   $conexion->commit();
-  echo json_encode(["ok" => true]);
+  header("Location: solicitantes.php?aviso=eliminado");
 
 } catch (mysqli_sql_exception $e) {
   $conexion->rollback();
-  echo json_encode(["ok" => false, "mensaje" => "Ocurrió un problema al eliminar, intenta de nuevo."]);
+  header("Location: solicitantes.php?aviso=error");
 }
+exit;

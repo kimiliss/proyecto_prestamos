@@ -771,19 +771,26 @@ img { max-width: 100%; height: auto; }
 .aviso-corto { margin-top: 16px; }
 
 /* =====================================================
-   Ventanas de mensaje reutilizables: mensajes.js (agregado)
+   Ventanas de mensaje reutilizables: mensajes.php (agregado)
    ===================================================== */
+.modal-fondo {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: grid;
+  place-items: center;
+  padding: 16px;
+  background: rgba(60, 64, 72, .55);
+}
+
 .modal {
-  border: 0;
+  width: min(100%, 440px);
   padding: 28px 32px 26px;
-  width: min(92vw, 440px);
   background: var(--fondo);
   color: var(--texto);
   border-radius: 2px;
   box-shadow: 0 10px 34px rgba(0, 0, 0, .28);
 }
-
-.modal::backdrop { background: rgba(60, 64, 72, .55); }
 
 .modal-titulo {
   font-family: var(--serif);
@@ -804,13 +811,14 @@ img { max-width: 100%; height: auto; }
   align-items: center;
   justify-content: space-between;
   gap: 28px;
-  margin-top: 30px;
+  margin: 30px 0 0;
 }
 
 .modal-acciones .btn {
   flex: 1;
   max-width: 220px;
   padding: 11px 20px;
+  text-align: center;
 }
 
 .modal-icono {
@@ -827,8 +835,8 @@ img { max-width: 100%; height: auto; }
 .modal-icono.ok    { background: #2e8b57; }
 .modal-icono.error { background: #b3261e; }
 
-/* Enlace con pinta de "Cancelar" (Editar solicitante) */
-a.btn-texto { text-decoration: none; display: inline-block; }
+/* Enlaces con pinta de botón (Aceptar, Cancelar) */
+a.btn, a.btn-texto { text-decoration: none; display: inline-block; }
 
 @media (max-width: 480px) {
   .modal { padding: 22px 20px; }

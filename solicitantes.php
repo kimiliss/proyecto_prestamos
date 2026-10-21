@@ -8,6 +8,7 @@
 
 <?php
   require "conexion.php";
+  require "mensajes.php";
 
   // Texto de la búsqueda (si no escribieron nada queda vacío)
   $q = trim($_GET["q"] ?? "");
@@ -45,6 +46,19 @@
   }
   $modo_editar = ($datos !== null);
 
+  // Si viene ?eliminar=ID, buscamos el nombre para la ventana de confirmación
+  $eliminar     = (int) ($_GET["eliminar"] ?? 0);
+  $a_eliminar   = null;
+  if ($eliminar > 0) {
+    $stmt_el = $conexion->prepare("SELECT id_solicitante, nombre FROM solicitante WHERE id_solicitante = ?");
+    $stmt_el->bind_param("i", $eliminar);
+    $stmt_el->execute();
+    $a_eliminar = $stmt_el->get_result()->fetch_assoc();   // null si no existe
+  }
+
+  // Aviso después de eliminar (lo manda eliminar_solicitante.php)
+  $aviso = $_GET["aviso"] ?? "";
+
   // Mensajes que manda guardar_solicitante.php
   $ok    = $_GET["ok"] ?? "";
   $error = $_GET["error"] ?? "";
@@ -57,10 +71,8 @@
   <title>Solicitantes - Data Link</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:wght@400;700&family=
-              Source+Sans+3:wght@400;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:wght@400;700&family=Source+Sans+3:wght@400;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
-  <script src="mensajes.js" defer></script>
 </head>
 <body>
 
@@ -87,33 +99,28 @@
 
       <!-- Formulario (sirve para registrar y para editar) -->
       <form class="formulario" action="guardar_solicitante.php" method="post">
-        <input type="hidden" name="id" value="<?php echo $modo_editar ?
-               $datos["id_solicitante"] : ""; ?>">
+        <input type="hidden" name="id" value="<?php echo $modo_editar ? $datos["id_solicitante"] : ""; ?>">
 
         <div class="campo">
           <label for="nombre">Nombre completo</label>
           <input type="text" id="nombre" name="nombre" placeholder="Ana López García" maxlength="70"
-                 value="<?php echo $modo_editar ? htmlspecialchars($datos["nombre"]) : ""; ?>"
-                 required>
+                 value="<?php echo $modo_editar ? htmlspecialchars($datos["nombre"]) : ""; ?>" required>
         </div>
 
         <div class="campo">
           <label for="matricula">Matrícula</label>
           <input type="text" id="matricula" name="matricula" placeholder="24241568" maxlength="30"
-                 value="<?php echo $modo_editar ? htmlspecialchars($datos["matricula"]) : ""; ?>"
-                 required>
+                 value="<?php echo $modo_editar ? htmlspecialchars($datos["matricula"]) : ""; ?>" required>
         </div>
 
         <div class="campo">
           <label for="area">Área / carrera</label>
           <input type="text" id="area" name="area" placeholder="Sistemas" maxlength="100"
-                 value="<?php echo $modo_editar ? htmlspecialchars($datos["carrera"]) : ""; ?>"
-                 required>
+                 value="<?php echo $modo_editar ? htmlspecialchars($datos["carrera"]) : ""; ?>" required>
         </div>
 
         <div class="acciones-form">
-          <button type="submit" class="btn"><?php echo $modo_editar ?
-          "Guardar cambios" : "Guardar"; ?></button>
+          <button type="submit" class="btn"><?php echo $modo_editar ? "Guardar cambios" : "Guardar"; ?></button>
           <?php if ($modo_editar): ?>
             <a class="btn-texto" href="solicitantes.php">Cancelar</a>
           <?php else: ?>
@@ -155,14 +162,7 @@
                 <td><?php echo htmlspecialchars($fila["carrera"]); ?></td>
                 <td>
                   <a href="solicitantes.php?editar=<?php echo $fila["id_solicitante"]; ?>">Editar</a>
-                  <a href="#" data-eliminar
-                     data-url="eliminar_solicitante.php"
-                     data-id="<?php echo $fila["id_solicitante"]; ?>"
-                     data-titulo="¿Eliminar solicitante?"
-                     data-mensaje="Se eliminará a <?php echo htmlspecialchars($fila["nombre"]); ?> 
-                     y todo su historial de préstamos. ¿Deseas continuar?"
-                     data-ok-titulo="Registro eliminado"
-                     data-ok-mensaje="El solicitante fue eliminado correctamente.">Eliminar</a>
+                  <a href="solicitantes.php?eliminar=<?php echo $fila["id_solicitante"]; ?>">Eliminar</a>
                 </td>
               </tr>
               <?php endwhile; ?>
@@ -175,6 +175,23 @@
 
     </div>
   </main>
+
+  <!-- Ventanas de mensaje -->
+  <?php if ($a_eliminar !== null): ?>
+    <?php ventana_confirmar(
+      "¿Eliminar solicitante?",
+      "Se eliminará a " . $a_eliminar["nombre"] . " y todo su historial de préstamos. ¿Deseas continuar?",
+      "solicitantes.php",
+      "eliminar_solicitante.php",
+      ["id" => $a_eliminar["id_solicitante"]]
+    ); ?>
+  <?php elseif ($aviso == "eliminado"): ?>
+    <?php ventana_aviso("ok", "Registro eliminado", "El solicitante fue eliminado correctamente.", "solicitantes.php"); ?>
+  <?php elseif ($aviso == "activos"): ?>
+    <?php ventana_aviso("error", "No se puede eliminar", "No se puede eliminar, el solicitante tiene préstamos activos.", "solicitantes.php"); ?>
+  <?php elseif ($aviso == "error"): ?>
+    <?php ventana_aviso("error", "No se puede eliminar", "Ocurrió un problema, intenta de nuevo.", "solicitantes.php"); ?>
+  <?php endif; ?>
 
 </body>
 </html>
