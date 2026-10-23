@@ -2,10 +2,45 @@
     Autor: Kimberly Garcia 
     Ultimo modificador: Kimberly Garcia
     Fecha de creacion: 18/10/26
-    Fecha de modificacion: 18/10/26
+    Fecha de modificacion: 22/10/26
     Descripcion: Pagina registrar devolucion del proyecto
 -->
 
+<?php
+
+include "conexion.php";
+require "mensajes.php";
+
+// ---- Prestamos activos (los que todavia no se devuelven), con busqueda opcional ----
+$q = isset($_GET['q']) ? trim($_GET['q']) : "";
+
+$sql = "SELECT p.id_prestamo, s.nombre AS solicitante, e.id_equipo, t.nombre AS tipo,
+               p.fecha_prestamo, p.fecha_limite
+        FROM prestamo p
+        INNER JOIN solicitante s ON s.id_solicitante = p.id_solicitante
+        INNER JOIN equipo e      ON e.id_equipo      = p.id_equipo
+        INNER JOIN tipoequipo t  ON t.id_tipo        = e.id_tipo
+        WHERE p.fecha_devolucion IS NULL";
+
+if ($q !== "") {
+    $sql .= " AND (s.nombre LIKE ?
+                   OR t.nombre LIKE ?
+                   OR e.descripcion LIKE ?
+                   OR CONCAT('EQ-', LPAD(e.id_equipo, 3, '0')) LIKE ?)";
+}
+$sql .= " ORDER BY p.fecha_limite ASC";
+
+$stmt = $conexion->prepare($sql);
+if ($q !== "") {
+    $like = "%" . $q . "%";
+    $stmt->bind_param("ssss", $like, $like, $like, $like);
+}
+$stmt->execute();
+$prestamos = $stmt->get_result();
+
+// ---- Aviso que regresa confirmar_devolucion.php ----
+$aviso = $_GET['aviso'] ?? "";
+?>
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -22,6 +57,19 @@
 
   <?php include "encabezado.php"; ?>
 
+  <?php
+  // ---- Ventanas de mensaje ----
+  if ($aviso == "devuelto") {
+      ventana_aviso("ok", "Devolución registrada", "El equipo volvió a estar Disponible.", "devoluciones.php");
+  } elseif ($aviso == "falta") {
+      ventana_aviso("error", "Selecciona un préstamo", "Elige el préstamo que vas a devolver.", "devoluciones.php");
+  } elseif ($aviso == "yadevuelto") {
+      ventana_aviso("error", "Préstamo no disponible", "Ese préstamo ya fue devuelto.", "devoluciones.php");
+  } elseif ($aviso == "error") {
+      ventana_aviso("error", "Ocurrió un error", "No se pudo registrar la devolución, intenta de nuevo.", "devoluciones.php");
+  }
+  ?>
+
   <main>
 
     <div class="cabecera-pantalla cabecera-devolucion">
@@ -36,7 +84,8 @@
       <!-- Búsqueda -->
       <label class="lista-titulo" for="buscar">Buscar por solicitante o equipo</label>
       <form class="busqueda" action="devoluciones.php" method="get">
-        <input type="search" id="buscar" name="q" placeholder="Ana López">
+        <input type="search" id="buscar" name="q" value="<?= htmlspecialchars($q) ?>"
+              placeholder="Ana López">
         <button type="submit" class="btn">Buscar</button>
       </form>
 
@@ -53,16 +102,22 @@
             </tr>
           </thead>
           <tbody>
-            <!-- Aquí van las filas desde la base de datos, por ejemplo:
-            <tr>
-              <td><input type="radio" name="id_prestamo" value="1" required></td>
-              <td>Ana López</td>
-              <td>EQ-104 · Laptop</td>
-              <td>12/06/2026</td>
-              <td>19/06/2026</td>
-              <td class="estado-ocupado">Ocupado</td>
-            </tr>
-            -->
+            <?php if ($prestamos->num_rows > 0) { ?>
+              <?php while ($f = $prestamos->fetch_assoc()) { ?>
+                <tr>
+                  <td><input type="radio" name="id_prestamo" value="<?= $f['id_prestamo'] ?>" required></td>
+                  <td><?= htmlspecialchars($f['solicitante']) ?></td>
+                  <td>EQ-<?= str_pad($f['id_equipo'], 3, "0", STR_PAD_LEFT) ?> · <?= 
+                          htmlspecialchars($f['tipo']) ?>
+                  </td>
+                  <td><?= date("d/m/Y", strtotime($f['fecha_prestamo'])) ?></td>
+                  <td><?= date("d/m/Y", strtotime($f['fecha_limite'])) ?></td>
+                  <td class="estado-ocupado">Ocupado</td>
+                </tr>
+              <?php } ?>
+            <?php } else { ?>
+              <tr><td colspan="6">No hay préstamos activos.</td></tr>
+            <?php } ?>
           </tbody>
         </table>
 

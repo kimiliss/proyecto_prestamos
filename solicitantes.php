@@ -2,7 +2,7 @@
     Autor: Kimberly Garcia 
     Ultimo modificador: Kimberly Garcia
     Fecha de creacion: 13/10/26
-    Fecha de modificacion: 20/10/26
+    Fecha de modificacion: 22/10/26
     Descripcion: Pagina solicitantes del proyecto
 -->
 
@@ -50,7 +50,8 @@
   $eliminar     = (int) ($_GET["eliminar"] ?? 0);
   $a_eliminar   = null;
   if ($eliminar > 0) {
-    $stmt_el = $conexion->prepare("SELECT id_solicitante, nombre FROM solicitante WHERE id_solicitante = ?");
+    $stmt_el = $conexion->prepare("SELECT id_solicitante, nombre FROM solicitante WHERE
+                                  id_solicitante = ?");
     $stmt_el->bind_param("i", $eliminar);
     $stmt_el->execute();
     $a_eliminar = $stmt_el->get_result()->fetch_assoc();   // null si no existe
@@ -71,7 +72,8 @@
   <title>Solicitantes - Data Link</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:wght@400;700&family=Source+Sans+3:wght@400;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:wght@400;700&family
+            =Source+Sans+3:wght@400;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -98,7 +100,8 @@
     <div class="dos-columnas">
 
       <!-- Formulario (sirve para registrar y para editar) -->
-      <form class="formulario" action="guardar_solicitante.php" method="post">
+      <form class="formulario" action="<?php echo $modo_editar ? 'editar_solicitante.php' :
+            'guardar_solicitante.php'; ?>" method="post">
         <input type="hidden" name="id" value="<?php echo $modo_editar ? $datos["id_solicitante"] : ""; ?>">
 
         <div class="campo">
@@ -110,17 +113,20 @@
         <div class="campo">
           <label for="matricula">Matrícula</label>
           <input type="text" id="matricula" name="matricula" placeholder="24241568" maxlength="30"
-                 value="<?php echo $modo_editar ? htmlspecialchars($datos["matricula"]) : ""; ?>" required>
+                 value="<?php echo $modo_editar ? htmlspecialchars($datos["matricula"]) : ""; ?>"
+                 required>
         </div>
 
         <div class="campo">
           <label for="area">Área / carrera</label>
           <input type="text" id="area" name="area" placeholder="Sistemas" maxlength="100"
-                 value="<?php echo $modo_editar ? htmlspecialchars($datos["carrera"]) : ""; ?>" required>
+                 value="<?php echo $modo_editar ? htmlspecialchars($datos["carrera"]) : ""; ?>" 
+                 required>
         </div>
 
         <div class="acciones-form">
-          <button type="submit" class="btn"><?php echo $modo_editar ? "Guardar cambios" : "Guardar"; ?></button>
+          <button type="submit" class="btn"><?php echo $modo_editar ? "Guardar cambios" : "Guardar"; ?>
+          </button>
           <?php if ($modo_editar): ?>
             <a class="btn-texto" href="solicitantes.php">Cancelar</a>
           <?php else: ?>
@@ -186,11 +192,14 @@
       ["id" => $a_eliminar["id_solicitante"]]
     ); ?>
   <?php elseif ($aviso == "eliminado"): ?>
-    <?php ventana_aviso("ok", "Registro eliminado", "El solicitante fue eliminado correctamente.", "solicitantes.php"); ?>
+    <?php ventana_aviso("ok", "Registro eliminado", "El solicitante fue eliminado correctamente.",
+                         "solicitantes.php"); ?>
   <?php elseif ($aviso == "activos"): ?>
-    <?php ventana_aviso("error", "No se puede eliminar", "No se puede eliminar, el solicitante tiene préstamos activos.", "solicitantes.php"); ?>
+    <?php ventana_aviso("error", "No se puede eliminar", "No se puede eliminar, 
+                        el solicitante tiene préstamos activos.", "solicitantes.php"); ?>
   <?php elseif ($aviso == "error"): ?>
-    <?php ventana_aviso("error", "No se puede eliminar", "Ocurrió un problema, intenta de nuevo.", "solicitantes.php"); ?>
+    <?php ventana_aviso("error", "No se puede eliminar", "Ocurrió un problema, intenta de nuevo.",
+                        "solicitantes.php"); ?>
   <?php endif; ?>
 
 </body>
