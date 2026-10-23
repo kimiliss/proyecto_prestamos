@@ -2,7 +2,7 @@
     Autor: Kimberly Garcia 
     Ultimo modificador: Kimberly Garcia
     Fecha de creacion: 18/10/26
-    Fecha de modificacion: 20/10/26
+    Fecha de modificacion: 22/10/26
     Descripcion: Pagina reportes del proyecto
 -->
 
@@ -25,7 +25,8 @@
   <title>Reportes - Data Link</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:wght@400;700&family=Source+Sans+3:wght@400;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:wght@400;700&family
+            =Source+Sans+3:wght@400;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
