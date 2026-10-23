@@ -49,7 +49,8 @@ if ($id_eliminar > 0) {
 $equipo_a_editar = null;
 $id_editar = (int) ($_GET['editar'] ?? 0);
 if ($id_editar > 0) {
-    $stmt3 = $conexion->prepare("SELECT id_equipo, id_tipo, descripcion, observaciones FROM equipo WHERE id_equipo = ?");
+    $stmt3 = $conexion->prepare("SELECT id_equipo, id_tipo, descripcion, observaciones 
+                                  FROM equipo WHERE id_equipo = ?");
     $stmt3->bind_param("i", $id_editar);
     $stmt3->execute();
     $equipo_a_editar = $stmt3->get_result()->fetch_assoc();
@@ -67,7 +68,8 @@ $aviso = $_GET['aviso'] ?? "";
   <title>Equipos - Data Link</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:wght@400;700&family=Source+Sans+3:wght@400;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:wght@400;700&family
+            =Source+Sans+3:wght@400;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -79,7 +81,8 @@ $aviso = $_GET['aviso'] ?? "";
   if ($equipo_a_eliminar) {
       ventana_confirmar(
           "¿Eliminar equipo?",
-          "Se eliminará EQ-" . str_pad($equipo_a_eliminar['id_equipo'], 3, "0", STR_PAD_LEFT) . " del inventario.",
+          "Se eliminará EQ-" . str_pad($equipo_a_eliminar['id_equipo'], 3, "0", STR_PAD_LEFT) .
+          " del inventario.",
           "equipos.php",
           "eliminar_equipo.php",
           ["id" => $equipo_a_eliminar['id_equipo']],
@@ -90,24 +93,29 @@ $aviso = $_GET['aviso'] ?? "";
   if ($aviso == "eliminado") {
       ventana_aviso("ok", "Equipo eliminado", "El inventario se actualizó correctamente.", "equipos.php");
   } elseif ($aviso == "activos") {
-      ventana_aviso("error", "No se puede eliminar", "No se puede eliminar, el equipo está en estatus de préstamo", "equipos.php");
+      ventana_aviso("error", "No se puede eliminar", "No se puede eliminar, el equipo está en estatus
+                    de préstamo", "equipos.php");
   } elseif ($aviso == "editado") {
       ventana_aviso("ok", "Cambios guardados", "El equipo fue actualizado correctamente.", "equipos.php");
   } elseif ($aviso == "error_editar") {
-      ventana_aviso("error", "Ocurrió un error", "No se pudo actualizar el equipo, intenta de nuevo.", "equipos.php");
+      ventana_aviso("error", "Ocurrió un error", "No se pudo actualizar el equipo, intenta de nuevo.",
+                    "equipos.php");
   } elseif ($aviso == "error") {
-      ventana_aviso("error", "Ocurrió un error", "No se pudo eliminar el equipo, intenta de nuevo.", "equipos.php");
+      ventana_aviso("error", "Ocurrió un error", "No se pudo eliminar el equipo, intenta de nuevo.",
+                    "equipos.php");
   }
   ?>
 
   <main>
     <h1>Equipos</h1>
-    <p class="subtitulo">Registra dispositivos y consulta el inventario. El ID se asigna automáticamente</p>
+    <p class="subtitulo">Registra dispositivos y consulta el inventario. 
+                        El ID se asigna automáticamente</p>
 
     <div class="dos-columnas">
 
       <!-- Formulario -->
-      <form class="formulario" action="<?= $equipo_a_editar ? 'editar_equipo.php' : 'guardar_equipo.php' ?>" method="post">
+      <form class="formulario" action="<?= $equipo_a_editar ? 'editar_equipo.php' : 
+                                'guardar_equipo.php' ?>" method="post">
         <?php if ($equipo_a_editar) { ?>
           <input type="hidden" name="id" value="<?= $equipo_a_editar['id_equipo'] ?>">
         <?php } ?>
@@ -118,7 +126,8 @@ $aviso = $_GET['aviso'] ?? "";
             <option value="">Selecciona un tipo</option>
             <?php while ($t = $tipos->fetch_assoc()) { ?>
               <option value="<?= $t['id_tipo'] ?>"
-                <?= ($equipo_a_editar && $equipo_a_editar['id_tipo'] == $t['id_tipo']) ? "selected" : "" ?>>
+                <?= ($equipo_a_editar && $equipo_a_editar['id_tipo'] == $t['id_tipo']) ?
+                  "selected" : "" ?>>
                 <?= htmlspecialchars($t['nombre']) ?>
               </option>
             <?php } ?>
@@ -128,14 +137,16 @@ $aviso = $_GET['aviso'] ?? "";
         <div class="campo">
           <label for="descripcion">Descripción</label>
           <input type="text" id="descripcion" name="descripcion" maxlength="150"
-                 value="<?= $equipo_a_editar ? htmlspecialchars($equipo_a_editar['descripcion']) : '' ?>"
+                 value="<?= $equipo_a_editar ? htmlspecialchars($equipo_a_editar['descripcion']) :
+                  '' ?>"
                  placeholder="Especificaciones del equipo" required>
         </div>
 
         <div class="campo">
           <label for="observaciones">Observaciones</label>
           <input type="text" id="observaciones" name="observaciones" maxlength="200"
-                 value="<?= $equipo_a_editar ? htmlspecialchars($equipo_a_editar['observaciones']) : '' ?>"
+                 value="<?= $equipo_a_editar ? htmlspecialchars($equipo_a_editar['observaciones']) :
+                  '' ?>"
                  placeholder="Notas adicionales" required>
         </div>
 
