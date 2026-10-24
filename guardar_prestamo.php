@@ -2,7 +2,7 @@
     Autor: Kimberly Garcia
     Ultimo modificador: Kimberly Garcia
     Fecha de creacion: 22/10/26
-    Fecha de modificacion: 22/10/26
+    Fecha de modificacion: 23/10/26
     Descripcion: Guarda un prestamo y cambia el equipo a estado Prestado
                  (las dos cosas o ninguna) y regresa a autorizar.php con el aviso que toca.
 -->
@@ -23,7 +23,7 @@ if ($_SERVER["REQUEST_METHOD"] !== "POST") {
 
 $id_solicitante = (int) ($_POST["solicitante"] ?? 0);
 $id_equipo      = (int) ($_POST["id_equipo"] ?? 0);
-$fecha_prestamo = $_POST["fecha_prestamo"] ?? "";
+$fecha_prestamo = date("Y-m-d"); // la fecha la pone el servidor, no el formulario
 $fecha_limite   = $_POST["fecha_limite"] ?? "";
 $observaciones  = trim($_POST["observaciones"] ?? "");
 
@@ -64,12 +64,13 @@ try {
     exit;
   }
 
-  // 4) Se registra el préstamo (fecha_devolucion se queda vacía hasta que lo devuelvan)
+  // 4) Se registra el préstamo con la fecha y hora exactas (NOW());
+  //    fecha_devolucion se queda vacía hasta que lo devuelvan
   $stmt = $conexion->prepare(
     "INSERT INTO prestamo (id_solicitante, id_equipo, id_usuario, fecha_prestamo, fecha_limite, observaciones)
-     VALUES (?, ?, ?, ?, ?, ?)"
+     VALUES (?, ?, ?, NOW(), ?, ?)"
   );
-  $stmt->bind_param("iiisss", $id_solicitante, $id_equipo, $id_usuario, $fecha_prestamo, $fecha_limite, $observaciones);
+  $stmt->bind_param("iiiss", $id_solicitante, $id_equipo, $id_usuario, $fecha_limite, $observaciones);
   $stmt->execute();
   $stmt->close();
 

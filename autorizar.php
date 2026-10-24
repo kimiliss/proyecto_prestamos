@@ -164,7 +164,7 @@ $aviso = $_GET['aviso'] ?? "";
             <div class="campo">
               <label for="fecha_prestamo">Fecha de préstamo</label>
               <input type="date" id="fecha_prestamo" name="fecha_prestamo"
-                     value="<?= htmlspecialchars($fecha_prestamo) ?>" required>
+                     value="<?= htmlspecialchars($fecha_prestamo) ?>" readonly>
             </div>
             <div class="campo">
               <label for="fecha_devolucion">Fecha de devolución</label>

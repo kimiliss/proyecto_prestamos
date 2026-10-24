@@ -13,10 +13,11 @@ if ($_SERVER["REQUEST_METHOD"] !== "POST") {
   exit;
 }
 
-$nombre    = trim($_POST["nombre"] ?? "");
-$matricula = trim($_POST["matricula"] ?? "");
-$carrera   = trim($_POST["area"] ?? "");   // en el formulario se llama "area", en la tabla es 
-                                            //"carrera"
+// Todo se guarda en mayúsculas (mb_strtoupper respeta acentos y la Ñ)
+// En el formulario el campo se llama "area", en la tabla es "carrera"
+$nombre    = mb_strtoupper(trim($_POST["nombre"] ?? ""), "UTF-8");
+$matricula = mb_strtoupper(trim($_POST["matricula"] ?? ""), "UTF-8");
+$carrera   = mb_strtoupper(trim($_POST["area"] ?? ""), "UTF-8");
 
 // Que no vengan vacíos
 if ($nombre === "" || $matricula === "" || $carrera === "") {
