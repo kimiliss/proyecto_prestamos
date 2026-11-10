@@ -2,7 +2,7 @@
     Autor: Kimberly Garcia 
     Ultimo modificador: Kimberly Garcia
     Fecha de creacion: 13/10/26
-    Fecha de modificacion: 22/10/26
+    Fecha de modificacion: 08/11/26
     Descripcion: Pagina solicitantes del proyecto
 -->
 
@@ -93,6 +93,10 @@
       <p class="aviso-error aviso-corto">Llena todos los campos antes de guardar.</p>
     <?php elseif ($error == "repetida"): ?>
       <p class="aviso-error aviso-corto">Esa matrícula ya está registrada.</p>
+    <?php elseif ($error == "nombre"): ?>
+      <p class="aviso-error aviso-corto">El nombre solo puede llevar letras y espacios.</p>
+    <?php elseif ($error == "matricula"): ?>
+      <p class="aviso-error aviso-corto">La matrícula puede tener máximo 8 caracteres.</p>
     <?php elseif ($error == "bd"): ?>
       <p class="aviso-error aviso-corto">No se pudo guardar, intenta de nuevo.</p>
     <?php endif; ?>
@@ -107,14 +111,15 @@
         <div class="campo">
           <label for="nombre">Nombre completo</label>
           <input type="text" id="nombre" name="nombre" placeholder="Ana López García" maxlength="70"
+                 pattern="[A-Za-zÁÉÍÓÚÜÑáéíóúüñ ]+" title="El nombre solo puede llevar letras y espacios"
                  value="<?php echo $modo_editar ? htmlspecialchars($datos["nombre"]) : ""; ?>" required>
         </div>
 
         <div class="campo">
           <label for="matricula">Matrícula</label>
-          <input type="text" id="matricula" name="matricula" placeholder="24241568" maxlength="30"
-                 value="<?php echo $modo_editar ? htmlspecialchars($datos["matricula"]) : ""; ?>"
-                 required>
+          <input type="text" id="matricula" name="matricula" placeholder="24241568" maxlength="8"
+                 value="<?php echo $modo_editar ? htmlspecialchars($datos["matricula"] ?? "") : "";
+                 ?>">
         </div>
 
         <div class="campo">
@@ -164,7 +169,7 @@
               <tr>
                 <td><?php echo sprintf("S-%03d", $fila["id_solicitante"]); ?></td>
                 <td><?php echo htmlspecialchars($fila["nombre"]); ?></td>
-                <td><?php echo htmlspecialchars($fila["matricula"]); ?></td>
+                <td><?php echo htmlspecialchars($fila["matricula"] ?? ""); ?></td>
                 <td><?php echo htmlspecialchars($fila["carrera"]); ?></td>
                 <td>
                   <a href="solicitantes.php?editar=<?php echo $fila["id_solicitante"]; ?>">Editar</a>

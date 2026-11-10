@@ -1,9 +1,12 @@
-<?php
-/*
-    Autor: Kimberly Garcia
+<!--
+    Autor: Kimberly Garcia 
+    Ultimo modificador: Kimberly Garcia
     Fecha de creacion: 20/10/26
-    Descripcion: Guarda un solicitante nuevo y regresa a solicitantes.php
-*/
+    Fecha de modificacion: 08/11/26
+    Descripcion: Pagina solicitantes del proyecto
+-->
+
+<?php
 
 require "conexion.php";
 
@@ -19,9 +22,26 @@ $nombre    = mb_strtoupper(trim($_POST["nombre"] ?? ""), "UTF-8");
 $matricula = mb_strtoupper(trim($_POST["matricula"] ?? ""), "UTF-8");
 $carrera   = mb_strtoupper(trim($_POST["area"] ?? ""), "UTF-8");
 
-// Que no vengan vacíos
-if ($nombre === "" || $matricula === "" || $carrera === "") {
+// Si no escribieron matrícula se guarda NULL (así no choca con el UNIQUE)
+if ($matricula === "") {
+  $matricula = null;
+}
+
+// Nombre y área son obligatorios (la matrícula ya no)
+if ($nombre === "" || $carrera === "") {
   header("Location: solicitantes.php?error=vacio");
+  exit;
+}
+
+// El nombre solo puede llevar letras y espacios
+if (!preg_match("/^[\p{L} ]+$/u", $nombre)) {
+  header("Location: solicitantes.php?error=nombre");
+  exit;
+}
+
+// La matrícula, si viene, máximo 8 caracteres
+if ($matricula !== null && mb_strlen($matricula, "UTF-8") > 8) {
+  header("Location: solicitantes.php?error=matricula");
   exit;
 }
 

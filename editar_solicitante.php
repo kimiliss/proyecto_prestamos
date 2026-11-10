@@ -2,7 +2,7 @@
     Autor: Kimberly Garcia
     Ultimo modificador: Kimberly Garcia
     Fecha de creacion: 22/10/26
-    Fecha de modificacion: 22/10/26
+    Fecha de modificacion: 08/11/26
     Descripcion: Actualiza un solicitante (nombre, matricula y area/carrera)
                  y regresa a solicitantes.php con el aviso que toca.
 -->
@@ -16,14 +16,31 @@ $nombre    = trim($_POST["nombre"] ?? "");
 $matricula = trim($_POST["matricula"] ?? "");
 $carrera   = trim($_POST["area"] ?? "");
 
+// Si no escribieron matrícula se guarda NULL (así no choca con el UNIQUE)
+if ($matricula === "") {
+  $matricula = null;
+}
+
 if ($_SERVER["REQUEST_METHOD"] !== "POST" || $id <= 0) {
   header("Location: solicitantes.php");
   exit;
 }
 
-// Si falta algo, se regresa al mismo solicitante en modo edición
-if ($nombre === "" || $matricula === "" || $carrera === "") {
+// Si falta nombre o área, se regresa al mismo solicitante en modo edición
+if ($nombre === "" || $carrera === "") {
   header("Location: solicitantes.php?editar=" . $id . "&error=vacio");
+  exit;
+}
+
+// El nombre solo puede llevar letras y espacios
+if (!preg_match("/^[\p{L} ]+$/u", $nombre)) {
+  header("Location: solicitantes.php?editar=" . $id . "&error=nombre");
+  exit;
+}
+
+// La matrícula, si viene, máximo 8 caracteres
+if ($matricula !== null && mb_strlen($matricula, "UTF-8") > 8) {
+  header("Location: solicitantes.php?editar=" . $id . "&error=matricula");
   exit;
 }
 
@@ -38,7 +55,7 @@ try {
   $stmt->fetch();
   $stmt->close();
 
-  if ($repetidas > 0) {
+  if ($matricula !== null && $repetidas > 0) {
     header("Location: solicitantes.php?editar=" . $id . "&error=repetida");
     exit;
   }
