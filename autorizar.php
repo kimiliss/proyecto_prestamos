@@ -2,7 +2,7 @@
     Autor: Kimberly Garcia
     Ultimo modificador: Kimberly Garcia
     Fecha de creacion: 13/10/26
-    Fecha de modificacion: 22/10/26
+    Fecha de modificacion: 08/11/26
     Descripcion: Pantalla para autorizar un prestamo de equipo
 -->
 
@@ -164,7 +164,7 @@ $aviso = $_GET['aviso'] ?? "";
             <div class="campo">
               <label for="fecha_prestamo">Fecha de préstamo</label>
               <input type="date" id="fecha_prestamo" name="fecha_prestamo"
-                     value="<?= htmlspecialchars($fecha_prestamo) ?>" readonly>
+                     value="<?= htmlspecialchars($fecha_prestamo) ?>" required>
             </div>
             <div class="campo">
               <label for="fecha_devolucion">Fecha de devolución</label>
