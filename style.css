@@ -2,7 +2,7 @@
     Autor: Kimberly Garcia 
     Ultimo modificador: Kimberly Garcia
     Fecha de creacion: 13/10/26
-    Fecha de modificacion: 21/10/26
+    Fecha de modificacion: 10/11/26
     Descripcion: Estilos de las paginas del proyecto
 */
 
@@ -16,7 +16,6 @@
   --circulo: #eceff2;
   --texto: #2b2b2b;
   --texto-suave: #5d6168;
-  --pildora: #eceff2;
   --serif: "Libre Baskerville", Georgia, "Times New Roman", serif;
   --sans: "Source Sans 3", "Segoe UI", system-ui, sans-serif;
 }
@@ -32,7 +31,6 @@
     --circulo: #2a2d33;
     --texto: #e6e7ea;
     --texto-suave: #a3a7ae;
-    --pildora: #2a2d33;
   }
 }
 
@@ -71,30 +69,12 @@ a:focus-visible {
   min-width: 0;
 }
 
-.escudo {
-  width: 52px;
-  height: 58px;
-  flex: none;
-}
-
 .marca-nombre {
   font-weight: 700;
   font-size: 1.15rem;
   color: var(--vino);
   letter-spacing: .1px;
 }
-
-.sesion {
-  background: var(--pildora);
-  color: var(--texto-suave);
-  font-size: .8rem;
-  padding: 9px 18px;
-  border-radius: 999px;
-  white-space: nowrap;
-  text-decoration: none;
-}
-
-.sesion:hover { color: var(--texto); }
 
 /* ===== Navegación ===== */
 .nav {
@@ -224,11 +204,6 @@ h1 {
   }
 
   .marca-nombre { font-size: 1rem; }
-
-  .sesion {
-    font-size: .72rem;
-    padding: 8px 12px;
-  }
 }
 
 @media (prefers-reduced-motion: reduce) {
