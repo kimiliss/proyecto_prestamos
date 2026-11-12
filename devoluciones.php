@@ -19,7 +19,7 @@ $sql = "SELECT p.id_prestamo, s.nombre AS solicitante, e.id_equipo, t.nombre AS 
         FROM prestamo p
         INNER JOIN solicitante s ON s.id_solicitante = p.id_solicitante
         INNER JOIN equipo e      ON e.id_equipo      = p.id_equipo
-        INNER JOIN tipoequipo t  ON t.id_tipo        = e.id_tipo
+        INNER JOIN tipo_equipo t  ON t.id_tipo        = e.id_tipo
         WHERE p.fecha_devolucion IS NULL";
 
 if ($q !== "") {
@@ -60,13 +60,17 @@ $aviso = $_GET['aviso'] ?? "";
   <?php
   // ---- Ventanas de mensaje ----
   if ($aviso == "devuelto") {
-      ventana_aviso("ok", "Devolución registrada", "El equipo volvió a estar Disponible.", "devoluciones.php");
+      ventana_aviso("ok", "Devolución registrada", "El equipo volvió a estar Disponible.",
+                   "devoluciones.php");
   } elseif ($aviso == "falta") {
-      ventana_aviso("error", "Selecciona un préstamo", "Elige el préstamo que vas a devolver.", "devoluciones.php");
+      ventana_aviso("error", "Selecciona un préstamo", "Elige el préstamo que vas a devolver.",
+                    "devoluciones.php");
   } elseif ($aviso == "yadevuelto") {
-      ventana_aviso("error", "Préstamo no disponible", "Ese préstamo ya fue devuelto.", "devoluciones.php");
+      ventana_aviso("error", "Préstamo no disponible", "Ese préstamo ya fue devuelto.",
+                    "devoluciones.php");
   } elseif ($aviso == "error") {
-      ventana_aviso("error", "Ocurrió un error", "No se pudo registrar la devolución, intenta de nuevo.", "devoluciones.php");
+      ventana_aviso("error", "Ocurrió un error", "No se pudo registrar la devolución,
+                    intenta de nuevo.", "devoluciones.php");
   }
   ?>
 
@@ -105,7 +109,9 @@ $aviso = $_GET['aviso'] ?? "";
             <?php if ($prestamos->num_rows > 0) { ?>
               <?php while ($f = $prestamos->fetch_assoc()) { ?>
                 <tr>
-                  <td><input type="radio" name="id_prestamo" value="<?= $f['id_prestamo'] ?>" required></td>
+                  <td><input type="radio" name="id_prestamo" value="<?= $f['id_prestamo'] ?>"
+                      required>
+                  </td>
                   <td><?= htmlspecialchars($f['solicitante']) ?></td>
                   <td>EQ-<?= str_pad($f['id_equipo'], 3, "0", STR_PAD_LEFT) ?> · <?= 
                           htmlspecialchars($f['tipo']) ?>

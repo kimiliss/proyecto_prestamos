@@ -12,14 +12,14 @@ include "conexion.php";
 require "mensajes.php";
 
 // ---- Tipos de equipo para el select del formulario ----
-$tipos = $conexion->query("SELECT id_tipo, nombre FROM tipoequipo ORDER BY nombre = 'OTRO', nombre");
+$tipos = $conexion->query("SELECT id_tipo, nombre FROM tipo_equipo ORDER BY nombre = 'OTRO', nombre");
 
 // ---- Lista de equipos (con busqueda opcional) ----
 $q = isset($_GET['q']) ? trim($_GET['q']) : "";
 
 $sql = "SELECT e.id_equipo, t.nombre AS tipo, e.descripcion, e.observaciones, e.estado
         FROM equipo e
-        INNER JOIN tipoequipo t ON t.id_tipo = e.id_tipo";
+        INNER JOIN tipo_equipo t ON t.id_tipo = e.id_tipo";
 
 if ($q !== "") {
     $sql .= " WHERE t.nombre LIKE ? OR e.descripcion LIKE ?";
