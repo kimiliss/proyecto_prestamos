@@ -2,13 +2,13 @@
     Autor: Kimberly Garcia 
     Ultimo modificador: Kimberly Garcia
     Fecha de creacion: 13/10/26
-    Fecha de modificacion: 21/10/26
+    Fecha de modificacion: 13/11/26
     Descripcion: Guarda un equipo nuevo y regresa a equipos.php
 -->
 
 <?php
 
-include "conexion.php";
+include "conexion.php"; // Conexion a la base de datos
 
 if ($_SERVER["REQUEST_METHOD"] !== "POST") {
     header("Location: equipos.php");

@@ -2,14 +2,14 @@
     Autor: Kimberly Garcia
     Ultimo modificador: Kimberly Garcia
     Fecha de creacion: 22/10/26
-    Fecha de modificacion: 08/11/26
+    Fecha de modificacion: 13/11/26
     Descripcion: Actualiza un solicitante (nombre, matricula y area/carrera)
                  y regresa a solicitantes.php con el aviso que toca.
 -->
 
 <?php
 
-require "conexion.php";
+require "conexion.php"; // Conexion a la base de datos
 
 $id        = (int) ($_POST["id"] ?? 0);
 $nombre    = trim($_POST["nombre"] ?? "");

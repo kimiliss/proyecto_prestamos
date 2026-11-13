@@ -2,12 +2,12 @@
     Autor: Kimberly Garcia 
     Ultimo modificador: Kimberly Garcia
     Fecha de creacion: 18/10/26
-    Fecha de modificacion: 23/10/26
+    Fecha de modificacion: 13/11/26
     Descripcion: Pagina reportes del proyecto
 -->
 
 <?php
-  include "conexion.php"; // ajusta al nombre de tu archivo de conexión
+  include "conexion.php"; // Conexión a la base de datos
 
   // Filtro activo
   $filtros = ["prestados", "disponibles", "vencidos"];
@@ -40,20 +40,20 @@
               DATE_FORMAT(p.fecha_limite,   '%d/%m/%Y') AS limite
        FROM prestamo p
        JOIN equipo e       ON e.id_equipo = p.id_equipo
-       JOIN tipoequipo t   ON t.id_tipo = e.id_tipo
+       JOIN tipo_equipo t   ON t.id_tipo = e.id_tipo
        JOIN solicitante s  ON s.id_solicitante = p.id_solicitante
        WHERE p.fecha_devolucion IS NULL
        ORDER BY p.fecha_limite ASC"
     );
   }
 
-  // Lista de disponibles (equipos que no están en un préstamo activo)
+  // Lista de disponibles
   $disponibles = null;
   if ($estado == "disponibles") {
     $disponibles = $conexion->query(
       "SELECT e.id_equipo, t.nombre AS tipo, e.descripcion, e.estado
        FROM equipo e
-       JOIN tipoequipo t ON t.id_tipo = e.id_tipo
+       JOIN tipo_equipo t ON t.id_tipo = e.id_tipo
        WHERE NOT EXISTS (SELECT 1 FROM prestamo p
                          WHERE p.id_equipo = e.id_equipo
                          AND p.fecha_devolucion IS NULL)
@@ -70,7 +70,7 @@
               DATEDIFF(CURDATE(), p.fecha_limite) AS retraso
        FROM prestamo p
        JOIN equipo e       ON e.id_equipo = p.id_equipo
-       JOIN tipoequipo t   ON t.id_tipo = e.id_tipo
+       JOIN tipo_equipo t   ON t.id_tipo = e.id_tipo
        JOIN solicitante s  ON s.id_solicitante = p.id_solicitante
        WHERE p.fecha_devolucion IS NULL AND p.fecha_limite < CURDATE()
        ORDER BY retraso DESC"

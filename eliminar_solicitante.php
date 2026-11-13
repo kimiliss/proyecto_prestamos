@@ -1,12 +1,14 @@
-<?php
-/*
-    Autor: Kimberly Garcia
+<!--
+Autor: Kimberly Garcia
     Fecha de creacion: 20/10/26
+    Fecha de modificacion: 13/11/26
     Descripcion: Elimina un solicitante (y su historial de prestamos)
                  y regresa a solicitantes.php con el aviso que toca.
-*/
+-->
 
-require "conexion.php";
+<?php
+
+require "conexion.php"; //Conexion a la base de datos
 
 $id = (int) ($_POST["id"] ?? 0);
 

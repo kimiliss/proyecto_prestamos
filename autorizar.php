@@ -2,13 +2,13 @@
     Autor: Kimberly Garcia
     Ultimo modificador: Kimberly Garcia
     Fecha de creacion: 13/10/26
-    Fecha de modificacion: 08/11/26
+    Fecha de modificacion: 13/11/26
     Descripcion: Pantalla para autorizar un prestamo de equipo
 -->
 
 <?php
 
-include "conexion.php";
+include "conexion.php"; // Conexión a la base de datos
 require "mensajes.php";
 
 
@@ -47,7 +47,7 @@ foreach ($solicitantes as $s) {
 // ---- Equipos disponibles (estado = 1), con busqueda opcional ----
 $sql = "SELECT e.id_equipo, t.nombre AS tipo, e.descripcion
         FROM equipo e
-        INNER JOIN tipoequipo t ON t.id_tipo = e.id_tipo
+        INNER JOIN tipo_equipo t ON t.id_tipo = e.id_tipo
         WHERE e.estado = 1";
 
 if ($q !== "") {
@@ -109,7 +109,8 @@ $aviso = $_GET['aviso'] ?? "";
   <?php
   // ---- Ventanas de mensaje ----
   if ($aviso == "guardado") {
-      ventana_aviso("ok", "Préstamo autorizado", "El equipo cambió a estado Prestado.", "autorizar.php");
+      ventana_aviso("ok", "Préstamo autorizado", "El equipo cambió a estado Prestado.",
+                    "autorizar.php");
   } elseif ($aviso == "falta_equipo") {
       ventana_aviso("error", "Selecciona un equipo", "Elige un equipo de la lista para autorizar
                     el préstamo.", "autorizar.php");

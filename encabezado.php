@@ -2,7 +2,7 @@
     Autor: Kimberly Garcia 
     Ultimo modificador: Kimberly Garcia
     Fecha de creacion: 13/10/26
-    Fecha de modificacion: 10/11/26
+    Fecha de modificacion: 13/11/26
     Descripcion: Este archivo contiene el encabezado y la barra de navegación del proyecto.
 -->
 
@@ -30,7 +30,8 @@ $menu = [
   <ul>
     <?php foreach ($menu as $archivo => $texto): ?>
       <li>
-        <a href="<?= $archivo ?>"<?= $archivo === $paginaActual ? ' aria-current="page"' : '' ?>><?= $texto ?></a>
+        <a href="<?= $archivo ?>"<?= $archivo === $paginaActual ? ' aria-current="page"' : '' ?>>
+                 <?= $texto ?></a>
       </li>
     <?php endforeach; ?>
   </ul>

@@ -2,13 +2,13 @@
     Autor: Kimberly Garcia 
     Ultimo modificador: Kimberly Garcia
     Fecha de creacion: 20/10/26
-    Fecha de modificacion: 08/11/26
+    Fecha de modificacion: 13/11/26
     Descripcion: Pagina solicitantes del proyecto
 -->
 
 <?php
 
-require "conexion.php";
+require "conexion.php"; // Conexion a la base de datos
 
 // Si entran directo al archivo (sin mandar el formulario), los regresamos
 if ($_SERVER["REQUEST_METHOD"] !== "POST") {
@@ -48,7 +48,7 @@ if ($matricula !== null && mb_strlen($matricula, "UTF-8") > 8) {
 try {
   $stmt = $conexion->prepare("INSERT INTO solicitante (nombre, matricula, carrera)
                              VALUES (?, ?, ?)");
-  $stmt->bind_param("sss", $nombre, $matricula, $carrera);
+  $stmt->bind_param("sss", $nombre, $matricula, $carrera); 
   $stmt->execute();
   header("Location: solicitantes.php?ok=1");
 } catch (mysqli_sql_exception $e) {

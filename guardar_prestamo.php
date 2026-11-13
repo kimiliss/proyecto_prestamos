@@ -2,15 +2,14 @@
     Autor: Kimberly Garcia
     Ultimo modificador: Kimberly Garcia
     Fecha de creacion: 22/10/26
-    Fecha de modificacion: 23/10/26
+    Fecha de modificacion: 13/11/26
     Descripcion: Guarda un prestamo y cambia el equipo a estado Prestado
                  (las dos cosas o ninguna) y regresa a autorizar.php con el aviso que toca.
 -->
-
-
+                 
 <?php
 
-require "conexion.php";
+require "conexion.php"; // Conexion a la base de datos
 
 if (session_status() === PHP_SESSION_NONE) {
   session_start();
@@ -67,7 +66,8 @@ try {
   // 4) Se registra el préstamo con la fecha y hora exactas (NOW());
   //    fecha_devolucion se queda vacía hasta que lo devuelvan
   $stmt = $conexion->prepare(
-    "INSERT INTO prestamo (id_solicitante, id_equipo, id_usuario, fecha_prestamo, fecha_limite, observaciones)
+    "INSERT INTO prestamo (id_solicitante, id_equipo, id_usuario, fecha_prestamo, fecha_limite,
+                           observaciones)
      VALUES (?, ?, ?, NOW(), ?, ?)"
   );
   $stmt->bind_param("iiiss", $id_solicitante, $id_equipo, $id_usuario, $fecha_limite, $observaciones);

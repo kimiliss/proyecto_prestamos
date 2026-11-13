@@ -2,17 +2,18 @@
     Autor: Kimberly Garcia 
     Ultimo modificador: Kimberly Garcia
     Fecha de creacion: 13/10/26
-    Fecha de modificacion: 22/10/26
+    Fecha de modificacion: 13/11/26
     Descripcion: Pagina de equipos 
 -->
 
 <?php
 
-include "conexion.php"; 
+include "conexion.php"; // Conexion a la base de datos
 require "mensajes.php";
 
 // ---- Tipos de equipo para el select del formulario ----
-$tipos = $conexion->query("SELECT id_tipo, nombre FROM tipo_equipo ORDER BY nombre = 'OTRO', nombre");
+$tipos = $conexion->query("SELECT id_tipo, nombre FROM tipo_equipo 
+                           ORDER BY nombre = 'OTRO', nombre");
 
 // ---- Lista de equipos (con busqueda opcional) ----
 $q = isset($_GET['q']) ? trim($_GET['q']) : "";
@@ -91,12 +92,14 @@ $aviso = $_GET['aviso'] ?? "";
   }
 
   if ($aviso == "eliminado") {
-      ventana_aviso("ok", "Equipo eliminado", "El inventario se actualizó correctamente.", "equipos.php");
+      ventana_aviso("ok", "Equipo eliminado", "El inventario se actualizó correctamente.",
+                    "equipos.php");
   } elseif ($aviso == "activos") {
       ventana_aviso("error", "No se puede eliminar", "No se puede eliminar, el equipo está en estatus
                     de préstamo", "equipos.php");
   } elseif ($aviso == "editado") {
-      ventana_aviso("ok", "Cambios guardados", "El equipo fue actualizado correctamente.", "equipos.php");
+      ventana_aviso("ok", "Cambios guardados", "El equipo fue actualizado correctamente.",
+                    "equipos.php");
   } elseif ($aviso == "error_editar") {
       ventana_aviso("error", "Ocurrió un error", "No se pudo actualizar el equipo, intenta de nuevo.",
                     "equipos.php");
@@ -109,7 +112,7 @@ $aviso = $_GET['aviso'] ?? "";
   <main>
     <h1>Equipos</h1>
     <p class="subtitulo">Registra dispositivos y consulta el inventario. 
-                        El ID se asigna automáticamente</p>
+                         El ID se asigna automáticamente</p>
 
     <div class="dos-columnas">
 
@@ -138,7 +141,7 @@ $aviso = $_GET['aviso'] ?? "";
           <label for="descripcion">Descripción</label>
           <input type="text" id="descripcion" name="descripcion" maxlength="150"
                  value="<?= $equipo_a_editar ? htmlspecialchars($equipo_a_editar['descripcion']) :
-                  '' ?>"
+                       '' ?>"
                  placeholder="Especificaciones del equipo" required>
         </div>
 
@@ -146,7 +149,7 @@ $aviso = $_GET['aviso'] ?? "";
           <label for="observaciones">Observaciones</label>
           <input type="text" id="observaciones" name="observaciones" maxlength="200"
                  value="<?= $equipo_a_editar ? htmlspecialchars($equipo_a_editar['observaciones']) :
-                  '' ?>"
+                       '' ?>"
                  placeholder="Notas adicionales" required>
         </div>
 

@@ -2,13 +2,13 @@
     Autor: Kimberly Garcia 
     Ultimo modificador: Kimberly Garcia
     Fecha de creacion: 18/10/26
-    Fecha de modificacion: 22/10/26
+    Fecha de modificacion: 13/11/26
     Descripcion: Pagina registrar devolucion del proyecto
 -->
 
 <?php
 
-include "conexion.php";
+include "conexion.php"; //Conexion a la base de datos
 require "mensajes.php";
 
 // ---- Prestamos activos (los que todavia no se devuelven), con busqueda opcional ----
@@ -89,7 +89,7 @@ $aviso = $_GET['aviso'] ?? "";
       <label class="lista-titulo" for="buscar">Buscar por solicitante o equipo</label>
       <form class="busqueda" action="devoluciones.php" method="get">
         <input type="search" id="buscar" name="q" value="<?= htmlspecialchars($q) ?>"
-              placeholder="Ana López">
+               placeholder="Ana López">
         <button type="submit" class="btn">Buscar</button>
       </form>
 

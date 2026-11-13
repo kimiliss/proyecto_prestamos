@@ -34,7 +34,7 @@ try {
     exit;
   }
 
-  // 2) Se borra su historial y luego el equipo (las dos cosas o ninguna)
+  // 2) Se borra su historial y luego el equipo
   $conexion->begin_transaction();
 
   $stmt = $conexion->prepare("DELETE FROM prestamo WHERE id_equipo = ?");

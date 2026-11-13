@@ -2,7 +2,7 @@
     Autor: Kimberly Garcia
     Ultimo modificador: Kimberly Garcia
     Fecha de creacion: 22/10/26
-    Fecha de modificacion: 22/10/26
+    Fecha de modificacion: 13/11/26
     Descripcion: Confirma la devolucion de un prestamo, poniendo la fecha de devolucion
                  y cambiando el equipo a estado disponible (las dos cosas o ninguna)
                  y regresa a devoluciones.php con el aviso que toca.
@@ -10,7 +10,7 @@
 
 <?php
 
-require "conexion.php";
+require "conexion.php"; //Conexion a la base de datos
 
 if ($_SERVER["REQUEST_METHOD"] !== "POST") {
   header("Location: devoluciones.php");

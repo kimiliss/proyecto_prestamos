@@ -2,14 +2,14 @@
     Autor: Kimberly Garcia
     Ultimo modificador: Kimberly Garcia
     Fecha de creacion: 22/10/26
-    Fecha de modificacion: 22/10/26
+    Fecha de modificacion: 13/11/26
     Descripcion: Actualiza un equipo (tipo, descripcion y observaciones)
                  y regresa a equipos.php con el aviso que toca.
 -->
 
 <?php
 
-require "conexion.php";
+require "conexion.php"; // Conexion a la base de datos
 
 $id            = (int) ($_POST["id"] ?? 0);
 $id_tipo       = (int) ($_POST["id_tipo"] ?? 0);

@@ -2,12 +2,12 @@
     Autor: Kimberly Garcia 
     Ultimo modificador: Kimberly Garcia
     Fecha de creacion: 13/10/26
-    Fecha de modificacion: 08/11/26
+    Fecha de modificacion: 13/11/26
     Descripcion: Pagina solicitantes del proyecto
 -->
 
 <?php
-  require "conexion.php";
+  require "conexion.php"; //Conexion a la base de datos
   require "mensajes.php";
 
   // Texto de la búsqueda (si no escribieron nada queda vacío)
@@ -54,7 +54,7 @@
                                   id_solicitante = ?");
     $stmt_el->bind_param("i", $eliminar);
     $stmt_el->execute();
-    $a_eliminar = $stmt_el->get_result()->fetch_assoc();   // null si no existe
+    $a_eliminar = $stmt_el->get_result()->fetch_assoc();   
   }
 
   // Aviso después de eliminar (lo manda eliminar_solicitante.php)
@@ -82,7 +82,8 @@
 
   <main>
     <h1>Solicitantes</h1>
-    <p class="subtitulo">Registra y administra a las personas autorizadas para solicitar equipos.</p>
+    <p class="subtitulo">Registra y administra a las personas autorizadas para solicitar
+                        equipos.</p>
 
     <!-- Mensajes de guardado -->
     <?php if ($ok == "1"): ?>
@@ -105,8 +106,9 @@
 
       <!-- Formulario (sirve para registrar y para editar) -->
       <form class="formulario" action="<?php echo $modo_editar ? 'editar_solicitante.php' :
-            'guardar_solicitante.php'; ?>" method="post">
-        <input type="hidden" name="id" value="<?php echo $modo_editar ? $datos["id_solicitante"] : ""; ?>">
+                                        'guardar_solicitante.php'; ?>" method="post">
+        <input type="hidden" name="id" value="<?php echo $modo_editar ?
+                                              $datos["id_solicitante"] : ""; ?>">
 
         <div class="campo">
           <label for="nombre">Nombre completo</label>
